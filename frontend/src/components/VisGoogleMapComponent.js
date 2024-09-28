@@ -24,6 +24,7 @@ function VisGoogleMapComponent() {
         containerStyle={containerStyle}
         center={center}
         zoom={13}
+        mapId={process.env.MAP_ID}
         onLoad={(map) => setMapRef(map)} // Set the map reference
         >
             {/* Example Marker */}
