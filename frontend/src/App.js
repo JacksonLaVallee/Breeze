@@ -42,9 +42,9 @@ function App() {
   const generateRecommendations = (preferences) => {
     // For now, return a static list of places
     return [
-      { id: 1, name: 'Recommended Place 1', latitude: 36.165, longitude: -86.784 },
-      { id: 2, name: 'Recommended Place 2', latitude: 36.167, longitude: -86.781 },
-      { id: 3, name: 'Recommended Place 3', latitude: 36.162, longitude: -86.788 }
+      { id: 1, name: 'Recommended Place 1', latitude: 36.165, longitude: -86.784, imageUrl: 'https://assets.site-static.com/blogphotos/2147/8168-green-spaces-the-top-10-parks-in-nashville-tn-compressed.jpg'},
+      { id: 2, name: 'Recommended Place 2', latitude: 36.167, longitude: -86.781, imageUrl: 'https://assets.site-static.com/blogphotos/2147/8168-green-spaces-the-top-10-parks-in-nashville-tn-compressed.jpg'},
+      { id: 3, name: 'Recommended Place 3', latitude: 36.162, longitude: -86.788, imageUrl: 'https://assets.site-static.com/blogphotos/2147/8168-green-spaces-the-top-10-parks-in-nashville-tn-compressed.jpg'}
     ];
   };
 
