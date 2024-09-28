@@ -18,16 +18,18 @@ function VisGoogleMapComponent() {
   const [mapRef, setMapRef] = useState(null);
 
   return (
-    <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-      <Map
+    <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAllPS_API_KEY}>
+     <div style={{height: "100vh"}}>
+        <Map
         containerStyle={containerStyle}
         center={center}
         zoom={13}
         onLoad={(map) => setMapRef(map)} // Set the map reference
-      >
-        {/* Example Marker */}
-        <Marker position={center} />
-      </Map>
+        >
+            {/* Example Marker */}
+            <Marker position={center} />
+        </Map>
+     </div>
     </APIProvider>
   );
 }
