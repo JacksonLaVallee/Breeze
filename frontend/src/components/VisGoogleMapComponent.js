@@ -8,13 +8,13 @@ const containerStyle = {
   height: '500px', // Adjust the height as needed
 };
 
-// Define the initial center of the map
-const center = {
+// Initial center of map (Downtown Nashville)
+const defaultCenter = {
   lat: 36.16449484460973, // Default latitude
   lng: -86.78347303808229, // Default longitude
 };
 
-function VisGoogleMapComponent() {
+function VisGoogleMapComponent({ places = [] }) {
   const [mapRef, setMapRef] = useState(null);
 
   return (
@@ -22,13 +22,19 @@ function VisGoogleMapComponent() {
      <div style={{height: "100vh"}}>
         <Map
         containerStyle={containerStyle}
-        center={center}
+        center={places.length ? { lat: places[0].latitude, lng: places[0].longitude } : defaultCenter}
         zoom={13}
         mapId={process.env.MAP_ID}
         onLoad={(map) => setMapRef(map)} // Set the map reference
         >
-            {/* Example Marker */}
-            <Marker position={center} />
+            {places.map((place,index) =>(
+                <Marker
+                    key={index}
+                    position={{ lat: place.latitude, lng:place.longitude}}
+                    title={place.name}
+                    // Can add more marker properties here later
+                />
+            ))}
         </Map>
      </div>
     </APIProvider>
