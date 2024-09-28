@@ -1,5 +1,5 @@
-// src/App.js
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import VisGoogleMapComponent from './components/VisGoogleMapComponent'; // Import the new Google Map component
 import './App.css'; // Optional: Include your CSS styles
 
@@ -14,23 +14,25 @@ const samplePlaces = [
 
 function App() {
   const [places, setPlaces] = useState(samplePlaces);
+
   return (
     <Router>
       <div className="App">
         <Routes>
-        <Route path="/" element={
-          <>
-          <h1>Breeze</h1>
-          <p>Activity Recommender</p>
-          {/* Render the Vis GL Google Map Component */}
-          <VisGoogleMapComponent places={places}/>
-          </>
-        } />
+          <Route
+            path="/"
+            element={
+              <>
+                <h1>Breeze</h1>
+                <p>Activity Recommender</p>
+                {/* Render the Vis GL Google Map Component */}
+                <VisGoogleMapComponent places={places} />
+              </>
+            }
+          />
         </Routes>
-
       </div>
     </Router>
-
   );
 }
 
