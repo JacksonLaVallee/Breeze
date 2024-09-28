@@ -15,14 +15,23 @@ const samplePlaces = [
 function App() {
   const [places, setPlaces] = useState(samplePlaces);
   return (
-    <div className="App">
-      <h1>Breeze</h1>
-      <p>Activity Recommender</p>
-      {/* Render the Vis GL Google Map Component */}
-      <VisGoogleMapComponent places={places}/>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+        <Route path="/" element={
+          <>
+          <h1>Breeze</h1>
+          <p>Activity Recommender</p>
+          {/* Render the Vis GL Google Map Component */}
+          <VisGoogleMapComponent places={places}/>
+          </>
+        } />
+        </Routes>
+
+      </div>
+    </Router>
+
   );
 }
 
 export default App;
-
