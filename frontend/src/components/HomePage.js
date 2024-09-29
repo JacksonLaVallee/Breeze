@@ -1,17 +1,30 @@
 // src/components/HomePage.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './HomePage.css'; // Optional: Include CSS specific to this component
+import './HomePage.css'; // Import the CSS file for styles
 
 function HomePage() {
-  const navigate = useNavigate(); // Create a navigate function using React Router
+  const [bgImage, setBgImage] = useState(''); // State for the dynamic background image
+  const navigate = useNavigate();
 
+  // Handle navigation to the date selection page
   const handleGetStarted = () => {
-    // Navigate to the date selection page
     navigate('/date-selection');
   };
 
+  // Change background image based on time of day or weather conditions
+  useEffect(() => {
+    const currentHour = new Date().getHours();
+    let bgUrl = 'https://www.mtnscoop.com/media/images/2020/05/shutterstock_1188687490-1024x535.jpg';
+
+    // TODO
+    // Use weather API to dynamically choose images (if its rainy, then show a rainy background image)
+
+    setBgImage(bgUrl);
+  }, []);
+
   return (
+<<<<<<< HEAD
     <div className="home-page" style={{ textAlign: 'center', marginTop: '50px' }}>
       {/* Slides or content that you want to display */}
       <div className="slides">
@@ -30,6 +43,14 @@ function HomePage() {
             onClick={handleGetStarted} // Navigate to date-selection when clicked
             style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}
           >
+=======
+    <div className="home-page" style={{ backgroundImage: `url(${bgImage})` }}>
+      <div className="overlay">
+        <div className="content">
+          <h1 className="title">Welcome to Breeze</h1>
+          <p className="subtitle">Discover things to do, no matter the weather.</p>
+          <button className="get-started-button" onClick={handleGetStarted}>
+>>>>>>> 2b407ef (updated homepage design)
             Get Started
           </button>
         </div>
@@ -39,30 +60,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
-// <!DOCTYPE html>
-// <html lang="en">
-//   <head>
-//     <meta name="viewport" content="width=device-width, initial-scale=1" />
-//     <title>Breeze</title>
-//     <link rel="stylesheet" href="style.css" />
-//   </head>
-//   <body>
-//     <div class="Container">
-//       <div class="slides slide1">
-//         <img src="../public/file.png">
-//         <h2>Welcome to Breeze</h2>
-//       </div>
-//       <div class="slides slide2">
-//         <h2>Never Worry About Weather Again</h2>
-//       </div>
-//       <div class="slides slide3">
-//         <h2>Click Here to Get Started</h2>
-//       </div>
-//       <div id="root"></div>
-
-//     </div>
-
-//   </body>
-//   </html>
-

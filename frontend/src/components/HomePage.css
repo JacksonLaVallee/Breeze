@@ -1,6 +1,8 @@
 /* src/components/HomePage.css */
 
+/* Base styles for the home page */
 .home-page {
+<<<<<<< HEAD
   background-color: linear-gradient(454deg, #ffc177, #000);
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -35,3 +37,81 @@
     background-color: #0056b3;
   }
   
+=======
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Semi-transparent overlay for better text visibility */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container for the content */
+.content {
+  text-align: center;
+  color: #fff; /* White text color */
+  animation: fadeIn 2s ease-in-out; /* Animation for content entrance */
+}
+
+/* Title text styling */
+.title {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Subtitle text styling */
+.subtitle {
+  font-size: 24px;
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+/* Button styling */
+.get-started-button {
+  background: #00c6ff; /* Gradient background */
+  background: -webkit-linear-gradient(to right, #0072ff, #00c6ff);
+  background: linear-gradient(to right, #0072ff, #00c6ff);
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+/* Hover effect for the button */
+.get-started-button:hover {
+  transform: scale(1.05); /* Slight zoom */
+  background: -webkit-linear-gradient(to right, #0052cc, #00a6cc);
+  background: linear-gradient(to right, #0052cc, #00a6cc);
+}
+
+/* Animation for fading in */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+>>>>>>> 2b407ef (updated homepage design)
