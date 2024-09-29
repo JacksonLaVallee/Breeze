@@ -49,20 +49,22 @@ app.get("/find-weather", async (req, res) => {
     const initialPrompt = {
       role: "system",
       content: `You are to respond in JSON format. Give a one word description of the average weather for each of the next seven days. 
-                YOU MAY ONLY RESPOND WITH ONE OF FIVE WORDS, ALL LOWERCASE: sunny, cloudy, rainy, stormy, snowy.
-                Return the response in the following parsable JSON format:
-                {
-                weather: [
-                "weatherDay1ONEWORD",
-                "weatherDay2ONEWORD",
-                "weatherDay3ONEWORD",
-                "weatherDay4ONEWORD",
-                "weatherDay5ONEWORD",
-                "weatherDay6ONEWORD",
-                "weatherDay7ONEWORD"
-                ]
-            }
-            Your provided data is as follows: ${JSON.stringify(messages)}`,
+                YOU MAY ONLY RESPONSE WITH ONE OF FIVE WORDS, ALL LOWERCASE: sunny, cloudy, rainy, stormy, snowy
+            DO NOT RETURN ANY OTHER WORD. I REPEAT ONLY RETURN sunny, cloudy, rainy, stormy, snowy. NOTHING ELSE IS ALLOWED.
+            Return the response in the following parsable JSON format:
+            {
+            weather: [
+            "weatherDay1ONEWORD",
+            "weatherDay2ONEWORD",
+            "weatherDay3ONEWORD",
+            "weatherDay4ONEWORD",
+            "weatherDay5ONEWORD",
+            "weatherDay6ONEWORD",
+            "weatherDay7ONEWORD"
+            ]
+        }
+            
+        Your provided data is as follows: ${JSON.stringify(messages)}`,
     };
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -82,13 +84,38 @@ app.get("/find-weather", async (req, res) => {
 
 // Fetch Initial Activities Based on Zip Code and Radius
 app.get("/find-activities", async (req, res) => {
-  try {
-    const activities = await grabActivities();
-    res.status(200).json(activities);
-  } catch (error) {
-    console.error("Error fetching activities:", error);
-    res.status(500).json({ error: "Failed to fetch activities" });
-  }
+    try {
+        const messages = await grabActivites();
+        const initialPrompt = {
+          role: "system",
+          content: `You are to respond in JSON format. Give a list of FIVE (5) activities by ID that can be done in the weather conditions provided.
+                Return the response in the following parsable JSON format:
+                {
+                activities: [
+                "activityID1",
+                "activityID2",
+                "activityID3",
+                "activityID4",
+                "activityID5"
+                ]}
+                
+                Your provided data is as follows: Activities ${JSON.stringify(
+                  messages
+                )}
+                Weather = Hurricane`,
+        };
+        const response = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          response_format: { type: "json_object" },
+          messages: [initialPrompt],
+          stream: false,
+        });
+        const parsableResponse = response.choices[0].message.content;
+        return res.status(200).send(JSON.parse(parsableResponse).activities);
+      } catch (error) {
+        console.log(error);
+        res.status(400).json({});
+      }
 });
 
 // Helper Function: Fetch Weather Data
@@ -143,3 +170,17 @@ async function grabActivities() {
     return { error: "Failed to fetch activities" };
   }
 }
+
+// Examples:
+// activites: [
+//     { id: "1", name: "Board Games" },
+//     { id: "2", name: "Indoor Sports" },
+//     { id: "3", name: "Bowling" },
+//     { id: "4", name: "Movie" },
+//     { id: "5", name: "Gym" },
+//     { id: "6", name: "Hike" },
+//     { id: "7", name: "Swim" },
+//     { id: "8", name: "Beach" },
+//     { id: "9", name: "Run" },
+//     { id: "10", name: "Picnic" },
+//   ],
