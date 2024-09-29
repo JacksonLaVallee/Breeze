@@ -84,7 +84,7 @@ function GoogleMapComponent({ places = [] }) {
         // Create a custom image overlay
         const overlayDiv = document.createElement('div');
         overlayDiv.className = 'place-image-container';
-        overlayDiv.innerHTML = `<img src="${place.photoUrl}" alt="${place.name}" class="place-image" style="width:100px; height:100px; border-radius:10px;" />`;
+        overlayDiv.innerHTML = `<img src="${place.photoUrl}" alt="${place.name}" class="place-image" />`;
         overlayDiv.style.display = 'none'; // Initially hide all overlays
         overlayDiv.style.zIndex = '1000'; // Ensure overlays appear above the map
 
