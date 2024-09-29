@@ -1,26 +1,14 @@
-<<<<<<< Updated upstream
 // src/components/DateSelectionPage.js
 import 'bootstrap/dist/css/bootstrap.css';
-=======
-// src/components/DateSelectionPage/DateSelectionPage.js
->>>>>>> Stashed changes
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DateSelectionPage.css'; // Import CSS for styling
 import axios from 'axios';
-<<<<<<< Updated upstream
 import Spinner from 'react-bootstrap/Spinner';
 
 function DateSelectionPage() {
   const [availableDays, setAvailableDays] = useState([]); // Array to hold the next 7 days
   const [loading, setLoading] = useState(true);
-=======
-
-function DateSelectionPage() {
-  const [availableDays, setAvailableDays] = useState([]); // Array to hold the next 7 days
-  const [initialActivityPlaceIds, setInitialActivityPlaceIds] = useState([]); // Store initial place IDs
-  const [zipCode, setZipCode] = useState('60612'); // Default zip code or user input
->>>>>>> Stashed changes
   const navigate = useNavigate();
 
   // Get weather icons (replace these URLs with your own images)
