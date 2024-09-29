@@ -1,6 +1,7 @@
 /* DateSelectionPage.css */
 
 .date-selection-page {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -139,4 +140,12 @@
 
 .day.snowy {
   animation: snowy 3s infinite;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Make the spinner container take full height of its parent */
+  width: 100%; /* Make the spinner container take full width of its parent */
 }
