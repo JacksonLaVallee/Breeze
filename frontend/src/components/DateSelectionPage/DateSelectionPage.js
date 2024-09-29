@@ -40,7 +40,7 @@ function DateSelectionPage() {
   const fetchWeatherData = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('https://breeze-theta.vercel.app//find-weather');
+      const res = await axios.get('https://breeze-theta.vercel.app/find-weather');
       const weatherData = res.data;
 
       // Generate next 7 days using fetched weather data
