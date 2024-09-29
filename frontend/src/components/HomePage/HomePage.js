@@ -18,7 +18,7 @@ function HomePage({ onSubmitZipCode }) {
     event.preventDefault();
     if (zipCode.match(/^\d{5}(-\d{4})?$/)) {
       await onSubmitZipCode(zipCode);
-      navigate('/date-selection'); // Optionally navigate after successful submission
+      navigate('/date-selection', { state: { zipCode }}); // Optionally navigate after successful submission
     } else {
       alert("Please enter a valid zip code.");
     }

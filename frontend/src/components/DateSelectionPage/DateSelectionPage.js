@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import './DateSelectionPage.css'; // Import CSS for styling
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
+import { useLocation } from 'react-router-dom';
 
 function DateSelectionPage() {
+    const location = useLocation();
+    const zip = location.state.zipCode;
   const [availableDays, setAvailableDays] = useState([]); // Array to hold the next 7 days
   const [loading, setLoading] = useState(true); // Loading state for spinner
   const navigate = useNavigate();
@@ -37,9 +40,10 @@ function DateSelectionPage() {
   };
 
   // Function to fetch weather data and generate the next 7 days
-  const fetchWeatherData = async () => {
+  const fetchWeatherData = async (zip) => {
     try {
       setLoading(true);
+      await axios.post(`https://breeze-theta.vercel.app/set-zip?zipCode=${zip}`);
       const res = await axios.get('https://breeze-theta.vercel.app/find-weather');
       const weatherData = res.data;
 
@@ -92,7 +96,7 @@ function DateSelectionPage() {
   // useEffect to set zip code, fetch weather data on component mount
   useEffect(() => {
     const initializeData = async () => {
-      await fetchWeatherData(); // Fetch weather data after zip code is set
+      await fetchWeatherData(zip); // Fetch weather data after zip code is set
     };
     initializeData();
   }, []); // Re-fetch when the zip code changes
