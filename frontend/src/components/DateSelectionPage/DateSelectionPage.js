@@ -76,7 +76,7 @@ function DateSelectionPage() {
   const handleDayClick = async (selectedDay) => {
     try {
       // Send selected weather to the backend for activity filtering
-      const response = await axios.post(`https://breeze-theta.vercel.app//set-weather?weather=${selectedDay.weather}`);
+      const response = await axios.post(`https://breeze-theta.vercel.app/set-weather?weather=${selectedDay.weather}`);
       const activities = response.data; // Get filtered activities from backend
 
       console.log('Filtered Activities:', activities);
