@@ -126,6 +126,9 @@ function DateSelectionPage() {
               </div>
             ))}
           </div>
+        <button onClick={() => navigate(-1)} className="goBackZipButton">
+        Choose a Different Zipcode
+        </button>
         </>
       )}
     </div>

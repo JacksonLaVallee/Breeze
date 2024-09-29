@@ -1,0 +1,27 @@
+.mapPageContainer {
+    position: relative; /* Relative position for the parent element */
+    /* Ensure that the map container takes full available height */
+    height: 100%;
+  }
+
+  .goBackDateButton {
+    position: absolute; /* Absolute position for the button */
+    top: 20px; /* Adjust this value as needed */
+    right: 20px; /* Adjust this value as needed */
+    cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    background-color: #ffffff; /* Bootstrap primary color */
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+  }
+  
+  .goBackDateButton:hover {
+    background-color: #4b4b4b; /* Darken color on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    color: #fff;
+  }

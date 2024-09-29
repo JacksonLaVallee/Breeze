@@ -28,6 +28,21 @@ app.listen(port, hostname, () => {
 });
 
 app.get("/", (req, res) => { return res.status(200).send("Hello, World!"); });
+// Get Description Endpoint
+app.get("/get-description", async (req, res) => {
+  console.log(req.query.placeName);
+  const initialPrompt = {
+    role: "system",
+    content: `I want to go to this place. Give a 1 sentence description of: ${req.query.placeName}`,
+  };
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [initialPrompt],
+    stream: false,
+  });
+  console.log(response);
+  return res.status(200).send(response.choices[0].message.content);
+});
 
 // Grab zip code endpoint
 app.get("/get-zip", (req, res) => { return res.status(200).send(zipCode); });
