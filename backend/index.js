@@ -27,6 +27,8 @@ app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 
+app.get("/", (req, res) => { return res.status(200).send("Hello, World!"); });
+
 // Grab zip code endpoint
 app.get("/get-zip", (req, res) => { return res.status(200).send(zipCode); });
 
