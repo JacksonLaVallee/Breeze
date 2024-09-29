@@ -85,7 +85,7 @@ app.get("/find-weather", async (req, res) => {
 // Fetch Initial Activities Based on Zip Code and Radius
 app.get("/find-activities", async (req, res) => {
     try {
-        const messages = await grabActivites();
+        const messages = await grabTempActivities();
         const initialPrompt = {
           role: "system",
           content: `You are to respond in JSON format. Give a list of FIVE (5) activities by ID that can be done in the weather conditions provided.
@@ -102,7 +102,7 @@ app.get("/find-activities", async (req, res) => {
                 Your provided data is as follows: Activities ${JSON.stringify(
                   messages
                 )}
-                Weather = Hurricane`,
+                Weather = Very sunny and amazing out`,
         };
         const response = await openai.chat.completions.create({
           model: "gpt-4o-mini",
@@ -171,16 +171,19 @@ async function grabActivities() {
   }
 }
 
-// Examples:
-// activites: [
-//     { id: "1", name: "Board Games" },
-//     { id: "2", name: "Indoor Sports" },
-//     { id: "3", name: "Bowling" },
-//     { id: "4", name: "Movie" },
-//     { id: "5", name: "Gym" },
-//     { id: "6", name: "Hike" },
-//     { id: "7", name: "Swim" },
-//     { id: "8", name: "Beach" },
-//     { id: "9", name: "Run" },
-//     { id: "10", name: "Picnic" },
-//   ],
+async function grabTempActivities() {
+    return {
+        activites: [
+        { id: "1", name: "Board Games" },
+        { id: "2", name: "Indoor Sports" },
+        { id: "3", name: "Bowling" },
+        { id: "4", name: "Movie" },
+        { id: "5", name: "Gym" },
+        { id: "6", name: "Hike" },
+        { id: "7", name: "Swim" },
+        { id: "8", name: "Beach" },
+        { id: "9", name: "Run" },
+        { id: "10", name: "Picnic" },
+      ]};
+}
+
