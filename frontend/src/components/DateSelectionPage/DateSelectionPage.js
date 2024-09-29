@@ -8,11 +8,7 @@ import Spinner from 'react-bootstrap/Spinner';
 
 function DateSelectionPage() {
   const [availableDays, setAvailableDays] = useState([]); // Array to hold the next 7 days
-<<<<<<< Updated upstream
   const [loading, setLoading] = useState(true);
-=======
-  const [loading, setLoading] = useState(true); // Loading state
->>>>>>> Stashed changes
   const [initialActivityPlaceIds, setInitialActivityPlaceIds] = useState([]); // Store initial place IDs
   const [zipCode, setZipCode] = useState('60612'); // Default zip code or user input
   const navigate = useNavigate();
@@ -41,11 +37,7 @@ function DateSelectionPage() {
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
   };
-<<<<<<< Updated upstream
   
-=======
-
->>>>>>> Stashed changes
   useEffect(() => {
     const fetchWeatherData = async () => {
       try {
@@ -62,14 +54,8 @@ function DateSelectionPage() {
     };
 
     fetchWeatherData();
-<<<<<<< Updated upstream
   }, []);
   
-=======
-    fetchInitialActivities(); // Fetch initial activities on component mount
-  }, [zipCode]);
-
->>>>>>> Stashed changes
   // Function to generate the next 7 days starting from today
   const generateNext7Days = (weatherData) => {
     const today = new Date();
@@ -112,16 +98,12 @@ function DateSelectionPage() {
     }
   };
 
-<<<<<<< Updated upstream
   useEffect(() => {
     generateNext7Days();
     fetchInitialActivities(); // Fetch initial activities on component mount
   }, [zipCode]); // Re-fetch activities when the zip code changes
 
   // Handle day click event
-=======
-  // Handle day click event and post data to the backend for filtering
->>>>>>> Stashed changes
   const handleDayClick = async (selectedDay) => {
     await axios.post(`http://localhost:8080/set-selected-day?day=${selectedDay.weather}`);
     console.log(`Selected Day: ${selectedDay.date}`);
@@ -133,14 +115,9 @@ function DateSelectionPage() {
     <div className="date-selection-page" style={pageStyle}>
       {loading ? (
         <div className="spinner-container">
-<<<<<<< Updated upstream
-      <Spinner animation="border" variant="light" />
-      </div>
-=======
           <Spinner animation="border" variant="light" />
           <h1>Loading...</h1>
         </div>
->>>>>>> Stashed changes
       ) : (
         <>
           <h1>Select a Date</h1>
