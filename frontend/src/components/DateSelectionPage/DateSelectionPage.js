@@ -158,7 +158,7 @@ function DateSelectionPage() {
           ))}
         </div>
         </>
-      )}
+      )
     </div>
   );
 }
