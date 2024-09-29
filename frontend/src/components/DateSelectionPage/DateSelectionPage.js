@@ -35,6 +35,26 @@ function DateSelectionPage() {
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
   };
+  
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      try {
+        setLoading(true); // Start the spinner before fetching data
+        const res = await axios.get('http://localhost:8080/find-weather');
+        // Assuming the response contains an array of weather data for 7 days
+        const weatherData = res.data;
+        generateNext7Days(weatherData); // Pass weather data to the generator function
+      } catch (error) {
+        console.error('Error fetching weather data:', error);
+        // Handle error here, e.g., set an error state
+      } finally {
+        setLoading(false); // Stop the spinner after fetching
+      }
+    };
+
+    fetchWeatherData();
+  }, []);
+  
   // Function to generate the next 7 days starting from today
   const generateNext7Days = async () => {
     try {
@@ -111,27 +131,9 @@ function DateSelectionPage() {
 
   return (
     <div className="date-selection-page" style={pageStyle}>
-      <h1>Select a Date</h1>
-      <div className="calendar">
-        {/* Render only the next 7 days */}
-        {availableDays.map((day, index) => (
-          <div
-            key={index}
-            className={`day ${day.weather}`}
-            style={{
-              backgroundImage: `url(${weatherBackgrounds[day.weather]})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-            onClick={() => handleDayClick(day)} // Pass the day object to the click handler
-          >
-            <div className="day-of-week">{day.dayOfWeek}</div>
-            <div className="day-number">
-              {day.monthName} {day.dayOfMonth}
-            </div>
-            <img src={weatherIcons[day.weather]} alt={day.weather} className="weather-icon" />
-          </div>
-        ))}
+      {loading ? (
+        <div className="spinner-container">
+      <Spinner animation="border" variant="light" />
       </div>
       ) : (
         <>
@@ -158,7 +160,7 @@ function DateSelectionPage() {
           ))}
         </div>
         </>
-      )
+      )}
     </div>
   );
 }
