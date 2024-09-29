@@ -1,9 +1,22 @@
 /* DateSelectionPage.css */
 
 .date-selection-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center items horizontally */
   text-align: center;
-  margin: 50px auto;
-  width: 80%;
+  text-align: center;
+  height: 100vh;
+  width: 100%;
+  background-size: cover; /* Cover the entire space of the element */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+}
+
+.date-selection-page h1 {
+  color: white; /* Specifically make the 'Select a Date' text white */
+  margin-top: 0; /* Remove any default margin at the top of the heading */
 }
 
 .calendar {
@@ -11,18 +24,17 @@
   grid-template-columns: repeat(7, 1fr); /* 7 columns for each day of the week */
   gap: 10px;
   margin: 20px auto;
-  max-width: 800px;
+  max-width: 1000px;
 }
 
 .day {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  border: 1px solid #686868;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 40px;
   cursor: pointer;
   transition: transform 0.3s, background-color 0.3s;
 }
@@ -52,4 +64,79 @@
 .weather-icon.stormy {
   width: 30px;
   height: 30px;
+}
+
+/* Additional styles for weather types */
+.day.sunny {
+  background-color: #fff9c4; /* Light yellow background for sunny weather */
+}
+
+.day.cloudy {
+  background-color: #cfd8dc; /* Gray background for cloudy weather */
+}
+
+.day.rainy {
+  background-color: #b3e5fc; /* Light blue background for rainy weather */
+}
+
+.day.stormy {
+  background-color: #bcaaa4; /* Dark gray background for stormy weather */
+}
+
+.day.snowy {
+  background-color: #bbdefb; /* Light gray/blue background for snowy weather */
+}
+
+/* Define keyframes for animations */
+
+@keyframes sunny {
+  0% { background-color: #fffde7; }
+  50% { background-color: #fff9c4; }
+  100% { background-color: #fffde7; }
+}
+
+@keyframes cloudy {
+  0% { background-color: #eceff1; }
+  50% { background-color: #cfd8dc; }
+  100% { background-color: #eceff1; }
+}
+
+@keyframes rainy {
+  0% { background-color: #e1f5fe; }
+  50% { background-color: #b3e5fc; }
+  100% { background-color: #e1f5fe; }
+}
+
+@keyframes stormy {
+  0% { background-color: #b0bec5; }
+  50% { background-color: #78909c; }
+  100% { background-color: #b0bec5; }
+}
+
+@keyframes snowy {
+  0% { background-color: #e0f7fa; }
+  50% { background-color: #b2ebf2; }
+  100% { background-color: #e0f7fa; }
+}
+
+/* Apply animations to weather types */
+
+.day.sunny {
+  animation: sunny 3s infinite;
+}
+
+.day.cloudy {
+  animation: cloudy 3s infinite;
+}
+
+.day.rainy {
+  animation: rainy 3s infinite;
+}
+
+.day.stormy {
+  animation: stormy 3s infinite;
+}
+
+.day.snowy {
+  animation: snowy 3s infinite;
 }

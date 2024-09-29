@@ -9,13 +9,30 @@ function DateSelectionPage() {
 
   // Get weather icons (replace these URLs with your own images)
   const weatherIcons = {
-    sunny: '../weather-icons/sunny-day.png',
-    cloudy: '../weather-icons/cloudy.png',
-    rainy: '../weather-icons/rain.png',
-    stormy: '../weather-icons/stormy-cloud-with-rain-and-thunder.png',
-    snowy: '../weather-icons/snow.png',
+    sunny: '../../weather-icons/sunny-day.png',
+    cloudy: '../../weather-icons/cloudy.png',
+    rainy: '../../weather-icons/rain.png',
+    stormy: '../../weather-icons/stormy-cloud-with-rain-and-thunder.png',
+    snowy: '../../weather-icons/snow.png',
   };
 
+  const weatherBackgrounds = {
+    sunny: process.env.PUBLIC_URL + '../../weather-icons/sunny-animation.gif',
+    cloudy: process.env.PUBLIC_URL + '../../weather-icons/cloudy-animation.gif',
+    rainy: process.env.PUBLIC_URL + '../../weather-icons/rainy-animation.gif',
+    stormy: process.env.PUBLIC_URL + '../../weather-icons/stormy-animation.gif',
+    snowy: process.env.PUBLIC_URL + '../../weather-icons/snowy-animation.gif',
+  }
+
+  const bgImage = process.env.PUBLIC_URL + '../weather-icons/outdoor1.jpg';
+
+  const pageStyle = {
+    backgroundImage: `url(${bgImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  };
+  
   // Function to generate the next 7 days starting from today
   const  generateNext7Days = async () => {
     const today = new Date();
@@ -60,14 +77,19 @@ function DateSelectionPage() {
   };
 
   return (
-    <div className="date-selection-page">
+    <div className="date-selection-page" style={pageStyle}>
       <h1>Select a Date</h1>
       <div className="calendar">
         {/* Render only the next 7 days */}
         {availableDays.map((day, index) => (
           <div
             key={index}
-            className="day"
+            className={`day ${day.weather}`} 
+            style={{
+              backgroundImage: `url(${weatherBackgrounds[day.weather]})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }} 
             onClick={() => handleDayClick(day)} // Pass the day object to the click handler
           >
             <div className="day-of-week">{day.dayOfWeek}</div>
