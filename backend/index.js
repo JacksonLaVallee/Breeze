@@ -5,17 +5,13 @@ const axios = require("axios");
 const bodyParser = require("body-parser");
 const compression = require("compression");
 const { OpenAI } = require("openai");
+require('dotenv').config();
 const app = express();
 app.use(express.json());
 const cors = require("cors");
 
-// Configuration and API Keys
-const OPENAI_API_KEY = "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";
-const WEATHER_API_KEY = "19144fe0b9f5430387e232205242809";
-const GOOGLE_API_KEY = "AIzaSyCocc-1XF4aJSLYk3mMSyoQqhipLpf9NLo";
-
 // Initialize OpenAI Client
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.REACT_APP_OPENAI_API_KEY });
 
 // Global State Variables
 let weatherData = [];
@@ -124,7 +120,7 @@ async function grabWeather() {
 
   try {
     const response = await axios.get(
-      `https://api.weatherapi.com/v1/forecast.json?q=${zipCode}&days=7&key=${WEATHER_API_KEY}`
+      `https://api.weatherapi.com/v1/forecast.json?q=${zipCode}&days=7&key=${REACT_APP_WEATHER_API_KEY}`
     );
     return response.data;
   } catch (error) {
@@ -137,7 +133,7 @@ async function grabActivities() {
   try {
     // Step 1: Convert the zip code to coordinates using Google Geocoding API
     const geoResponse = await axios.get(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${zipCode}&key=${GOOGLE_API_KEY}`
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${zipCode}&key=${REACT_APP_GOOGLE_API_KEY}`
     );
     if (geoResponse.data.status !== "OK") throw new Error("Failed to get coordinates from zip code");
 
@@ -158,7 +154,7 @@ async function grabActivities() {
       types: place.types,
       rating: place.rating || 'N/A',
       price_level: place.price_level || 'N/A',
-      photoUrl: place.photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${place.photos[0].photo_reference}&key=${GOOGLE_API_KEY}` : '',
+      photoUrl: place.photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${place.photos[0].photo_reference}&key=${REACT_APP_GOOGLE_API_KEY}` : '',
     }));
 
     ACTIVITIES_LIST = activities; // Store activities globally if needed
