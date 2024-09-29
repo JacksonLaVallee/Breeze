@@ -1,13 +1,10 @@
-const express=require('express'), 
-http=require('http'); 
+const express=require('express'); 
 const hostname='localhost'; 
 const port=8080; 
 const axios=require('axios');
 const bodyParser=require('body-parser');
 const compression=require('compression');
 const { OpenAI } = require("openai"); 
-const { OpenAIStream } = require("ai");
-const { StreamingTextResponse } = require("ai");
 const app=express(); 
 app.use(express.json()); 
 const cors = require('cors');
@@ -21,26 +18,37 @@ app.use(cors());
 const WEATHER_API_KEY = "19144fe0b9f5430387e232205242809";
 
 let weatherData = [];
-let zipCode = "";
-const openai = new OpenAI({
-    apiKey: OPENAI_API_KEY,
-})
+let zipCode = "60612";
+const openai = new OpenAI({ apiKey: OPENAI_API_KEY })
+
+app.listen(port, hostname, ()=> { 
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+// app.use((req, res)=> { 
+//     // console.log(req.headers); 
+//     res.statusCode=200; 
+//     res.setHeader('Content-Type', 'text/html'); 
+//     res.end('<html><body><h1>You shouldnt be here...</h1></body></html>'); 
+// }); 
 
 app.post("/set-zip", (req, res) => {
+    weatherData = [];
     console.log(req.query.zipCode);
     zipCode = req.query.zipCode;
     return res.status(200).json({
         success: true,
         data: zipCode
     });
-})
+});
 
-app.post("/find-weather", async (req, res) => {
+app.get("/find-weather", async (req, res) => {
     if (weatherData.length != 0) return res.status(200).send(weatherData);
     try {
-        const messages = await grabWeather("60612");
-        console.log(messages);
-        console.log(JSON.stringify(messages));
+        const messages = await grabWeather(zipCode);
+        // console.log(messages);
+        // console.log(JSON.stringify(messages));
+        console.log("Finding weather on zip code: " + zipCode);
         const initialPrompt = {
             role: "system",
             content: `You are to respond in JSON format. Give a one word description of the average weather for each of the next seven days. 
@@ -69,64 +77,34 @@ app.post("/find-weather", async (req, res) => {
         });
         
         const parsableResponse = response.choices[0].message.content;
-        console.log(parsableResponse);
+        // console.log(parsableResponse);
         weatherData = JSON.parse(parsableResponse).weather;
-        console.log(weatherData);
-        return res.status(200).json({
-            success: true,
-            data: response
-        });
+        // console.log(weatherData);
+        return res.status(200).send(weatherData);
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         res.status(400).json({});
     }
 });
 
-app.use((req, res)=> { 
-		console.log(req.headers); 
-		res.statusCode=200; 
-		res.setHeader('Content-Type', 'text/html'); 
-		res.end('<html><body><h1>This is a test server</h1></body></html>'); 
-}); 
-
-app.listen(port, hostname, ()=> { 
-		console.log(`Server running at http://${hostname}:${port}/`);
+app.get("/find-activities", async (req, res) => {
+    
 });
 
-async function grabWeather(zipCode) {
+async function grabWeather() {
     if (zipCode.length != 5) {
         return {error: "Invalid zip code"};
     }
-
+    
     try {
         const response = await axios.get(`https://api.weatherapi.com/v1/forecast.json?q=${zipCode}&days=7&key=${WEATHER_API_KEY}`);
         return response.data;
     } catch (error) {
         return {error: error};
     }
-
+    
 }
 
-// setWeatherData();
-
-// export async function POST(req) {
-//     const { messages } = await req.json();
-  
-//     const initialPrompt = {
-//       role: "system",
-//       content: "You are a helpful mystic who interprets dreams in less than 30 words."
-//     }
-  
-//     const messagesWithInitialPrompt = [initialPrompt, ...messages];
-  
-//     const response = await openai.chat.completions.create({
-//       model: "gpt-4o-mini",
-//       reponse_format: {"type": "json_object"},
-//       messages: messagesWithInitialPrompt,
-//       stream: true,
-//     });
-  
-//     const stream = OpenAIStream(response);
-  
-//     return new StreamingTextResponse(stream);
-//   }
+async function grabActivites() {
+    return ["golfing", "skiing", "board games", "swimming", "beach", "hiking", "indoor sports", "fishing", "video games", "reading"];
+}

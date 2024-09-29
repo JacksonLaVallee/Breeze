@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DateSelectionPage.css'; // Import CSS for styling
-
+import axios from 'axios';
 function DateSelectionPage() {
   const [availableDays, setAvailableDays] = useState([]); // Array to hold the next 7 days
   const navigate = useNavigate();
@@ -17,9 +17,10 @@ function DateSelectionPage() {
   };
 
   // Function to generate the next 7 days starting from today
-  const generateNext7Days = () => {
+  const  generateNext7Days = async () => {
     const today = new Date();
     const days = [];
+    const weatherData = (await axios.get('http://localhost:8080/find-weather')).data;
 
     for (let i = 0; i < 7; i++) {
       const date = new Date();
@@ -29,7 +30,9 @@ function DateSelectionPage() {
       const monthName = date.toLocaleString('default', { month: 'short' }); // Get short month name
 
       // Assign a random weather type to each day
-      const weather = Object.keys(weatherIcons)[Math.floor(Math.random() * Object.keys(weatherIcons).length)];
+      const weather = weatherData[i];
+      console.log(weatherData);
+      console.log(weather);   
 
       // Create day object and push it into the array
       days.push({
