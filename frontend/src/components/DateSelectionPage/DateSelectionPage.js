@@ -1,8 +1,7 @@
-// src/components/DateSelectionPage.js
 import 'bootstrap/dist/css/bootstrap.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './DateSelectionPage.css'; // Import CSS for styling
+import './DateSelectionPage.css';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 import { useLocation } from 'react-router-dom';
@@ -14,7 +13,6 @@ function DateSelectionPage() {
   const [loading, setLoading] = useState(true); // Loading state for spinner
   const navigate = useNavigate();
 
-  // Get weather icons (replace these URLs with your own images)
   const weatherIcons = {
     sunny: '../../weather-icons/sunny-day.png',
     cloudy: '../../weather-icons/cloudy.png',
@@ -39,7 +37,6 @@ function DateSelectionPage() {
     backgroundRepeat: 'no-repeat',
   };
 
-  // Function to fetch weather data and generate the next 7 days
   const fetchWeatherData = async (zip) => {
     try {
       setLoading(true);
@@ -47,7 +44,6 @@ function DateSelectionPage() {
       const res = await axios.get('https://breeze-theta.vercel.app/find-weather');
       const weatherData = res.data;
 
-      // Generate next 7 days using fetched weather data
       const today = new Date();
       const days = [];
 
@@ -76,30 +72,26 @@ function DateSelectionPage() {
     }
   };
 
-  // Function to handle day click event
   const handleDayClick = async (selectedDay) => {
     try {
-      // Send selected weather to the backend for activity filtering
       console.log(await axios.get(`https://breeze-theta.vercel.app/get-zip`));
       const response = await axios.post(`https://breeze-theta.vercel.app/set-weather?weather=${selectedDay.weather}`);
-      const activities = response.data; // Get filtered activities from backend
+      const activities = response.data;
 
       console.log('Filtered Activities:', activities);
 
-      // Navigate to MapPage with detailed activity data
       navigate('/map', { state: { places: activities } });
     } catch (error) {
       console.error('Error fetching filtered activities:', error);
     }
   };
 
-  // useEffect to set zip code, fetch weather data on component mount
   useEffect(() => {
     const initializeData = async () => {
-      await fetchWeatherData(zip); // Fetch weather data after zip code is set
+      await fetchWeatherData(zip);
     };
     initializeData();
-  }, []); // Re-fetch when the zip code changes
+  }, []);
 
   return (
     <div className="date-selection-page" style={pageStyle}>
@@ -111,7 +103,6 @@ function DateSelectionPage() {
         <>
           <h1>Select a Date</h1>
           <div className="calendar">
-            {/* Render only the next 7 days */}
             {availableDays.map((day, index) => (
               <div
                 key={index}
@@ -121,7 +112,7 @@ function DateSelectionPage() {
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
-                onClick={() => handleDayClick(day)} // Pass the day object to the click handler
+                onClick={() => handleDayClick(day)}
               >
                 <div className="day-of-week">{day.dayOfWeek}</div>
                 <div className="day-number">

@@ -1,16 +1,13 @@
-// src/components/UserPreferencesModal.js
-import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function UserPreferencesModal({ show, handleClose, onSubmit }) {
-  // State for storing user preferences
-  const [date, setDate] = useState('');
-  const [priceRange, setPriceRange] = useState('');
+  const [date, setDate] = useState("");
+  const [priceRange, setPriceRange] = useState("");
   const [groupSize, setGroupSize] = useState(1);
-  const [otherPreferences, setOtherPreferences] = useState('');
+  const [otherPreferences, setOtherPreferences] = useState("");
 
-  // Handle form submission
   const handleSubmit = () => {
     const preferences = {
       date,
@@ -19,10 +16,8 @@ function UserPreferencesModal({ show, handleClose, onSubmit }) {
       otherPreferences,
     };
 
-    // Pass the preferences back to the parent component
     onSubmit(preferences);
 
-    // Close the modal
     handleClose();
   };
 
