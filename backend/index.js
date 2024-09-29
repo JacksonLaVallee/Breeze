@@ -27,6 +27,9 @@ app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 
+// Grab zip code endpoint
+app.get("/get-zip", (req, res) => { return res.status(200).send(zipCode); });
+
 // Set Zip Code Endpoint
 app.post("/set-zip", (req, res) => {
   weatherData = [];

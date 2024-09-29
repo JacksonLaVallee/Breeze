@@ -11,7 +11,7 @@ function FloatingList({ places, selectedPlace, onSelectPlace }) {
           className={`place-item ${selectedPlace === place.id ? 'active' : ''}`}
           onClick={() => onSelectPlace(place.id)}
         >
-          <img src={place.imageUrl} alt={place.name} className="place-thumbnail" />
+          <img src={place.photoUrl} alt={place.name} className="place-thumbnail" />
           <div className="place-details">
             <h3>{place.name}</h3>
             <div className="place-meta">
