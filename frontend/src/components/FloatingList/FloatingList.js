@@ -11,7 +11,7 @@ function FloatingList({ places, selectedPlace, onSelectPlace }) {
   const fetchDescription = async (place) => {
     try {
       //get zip code of current place
-      const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${place.location.lat},${place.location.lng}&key=AIzaSyCocc-1XF4aJSLYk3mMSyoQqhipLpf9NLo`);
+      const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${place.location.lat},${place.location.lng}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`);
       const address = response.data.results[0].formatted_address;
       const description = await PlaceDescription(place.name, address);
       setDescriptions((prevDescriptions) => ({

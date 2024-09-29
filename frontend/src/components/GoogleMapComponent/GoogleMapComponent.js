@@ -25,7 +25,7 @@ function GoogleMapComponent({ places = [] }) {
         const zipCode = response.data;
 
         const geoResponse = await axios.get(
-          `https://maps.googleapis.com/maps/api/geocode/json?address=${zipCode}&key=AIzaSyCocc-1XF4aJSLYk3mMSyoQqhipLpf9NLo`
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${zipCode}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}}`
         );
         console.log("geoResponse:", geoResponse.data);
 
