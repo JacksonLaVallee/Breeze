@@ -9,11 +9,11 @@ function DateSelectionPage() {
 
   // Get weather icons (replace these URLs with your own images)
   const weatherIcons = {
-    sunny: 'https://via.placeholder.com/50/FFD700?text=Sunny',
-    cloudy: 'https://via.placeholder.com/50/C0C0C0?text=Cloudy',
-    rainy: 'https://via.placeholder.com/50/87CEFA?text=Rainy',
-    stormy: 'https://via.placeholder.com/50/808080?text=Stormy',
-    snowy: 'https://via.placeholder.com/50/FFFFFF?text=Snowy',
+    sunny: '/sunny-day.png',
+    cloudy: '/cloudy.png',
+    rainy: '/rain.png',
+    stormy: '/stormy-cloud-with-rain-and-thunder.png',
+    snowy: '/snow.png',
   };
 
   // Function to generate the next 7 days starting from today
