@@ -20,7 +20,13 @@ let ACTIVITIES_LIST = [];
 
 app.use(compression());
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors(
+    {
+        origin: ["https://breeze-theta.vercel.app"],
+        methods: ["POST", "GET"],
+        credentials: true
+    }
+));
 
 // Start Server
 app.listen(port, hostname, () => {
