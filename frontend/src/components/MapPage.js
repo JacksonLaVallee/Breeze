@@ -5,7 +5,9 @@ import VisGoogleMapComponent from './VisGoogleMapComponent'; // Import your map 
 
 function MapPage() {
   const location = useLocation();
-  const preferences = location.state ? location.state.preferences : {};
+
+  // Extract the selected day data from the state passed through the router
+  const selectedDay = location.state ? location.state.selectedDay : null;
 
   // Sample places for demonstration purposes
   const samplePlaces = [
@@ -28,9 +30,15 @@ function MapPage() {
   return (
     <div>
       <h1 style={{ textAlign: 'center' }}>Map Page</h1>
-      <p style={{ textAlign: 'center' }}>
-        Showing activities for the selected preferences: {JSON.stringify(preferences)}
-      </p>
+      {/* Display selected date information if available */}
+      {selectedDay ? (
+        <p style={{ textAlign: 'center' }}>
+          Showing activities for the selected date: {selectedDay.date}
+        </p>
+      ) : (
+        <p style={{ textAlign: 'center' }}>No date selected.</p>
+      )}
+      
       {/* Render the map component with sample places */}
       <VisGoogleMapComponent places={samplePlaces} />
     </div>
