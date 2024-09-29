@@ -1,18 +1,21 @@
 /* src/components/HomePage.css */
 
 .home-page {
+  background-color: linear-gradient(454deg, #ffc177, #000);
     font-family: Arial, sans-serif;
     margin: 20px;
   }
   
   .home-page .slides {
+    background-color: linear-gradient(454deg, #ffc177, #000);
     margin: 20px auto;
     max-width: 800px;
   }
   
   .home-page .slide {
+    background-color: linear-gradient(454deg, #ffc177, #000);
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #000000;
     border-radius: 10px;
     margin-bottom: 20px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -20,7 +23,7 @@
   }
   
   .get-started-button {
-    background-color: #007bff;
+    background-color: #46ba42;
     color: white;
     border: none;
     padding: 10px 20px;

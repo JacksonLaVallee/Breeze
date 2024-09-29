@@ -16,7 +16,7 @@ function HomePage() {
       {/* Slides or content that you want to display */}
       <div className="slides">
         <div className="slide">
-          <img src="../public/file.png" alt="Welcome" />
+          <img src="file.png" alt="Welcome" />
           <h2>Welcome to Breeze</h2>
         </div>
         <div className="slide">
