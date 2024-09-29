@@ -1,6 +1,6 @@
 // src/components/FloatingList.js
 import React from 'react';
-import './FloatingList.css'; // Create a CSS file for styles specific to this component
+import './FloatingList.css';
 
 function FloatingList({ places, selectedPlace, onSelectPlace }) {
   return (
