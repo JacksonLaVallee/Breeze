@@ -21,7 +21,7 @@ function GoogleMapComponent({ places = [] }) {
     const fetchCoordinates = async () => {
       try {
         // Fetch the zip code from the backend
-        const response = await axios.get('http://localhost:8080/get-zip');
+        const response = await axios.get('https://breeze-theta.vercel.app/get-zip');
         const zipCode = response.data;
 
         // Fetch coordinates using the zip code from Google Geocoding API

@@ -14,7 +14,7 @@ function App() {
   // Handler function that gets called when the zip code is submitted
   const handleZipCodeSubmit = (zipCode) => {
     console.log('Zip code submitted:', zipCode);
-    axios.post(`http://localhost:8080/set-zip?zipCode=${zipCode}`); // Save the zip code to state
+    axios.post(`https://breeze-theta.vercel.app/0/set-zip?zipCode=${zipCode}`); // Save the zip code to state
     // You might also navigate to another route or perform an API call here
   };
 
