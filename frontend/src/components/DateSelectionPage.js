@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserPreferencesModal from './UserPreferencesModal'; // Import the modal component
+import './DateSelectionPage.css'; // Optional: Include CSS specific to this component
 
 function DateSelectionPage() {
   const [showModal, setShowModal] = useState(true); // Show modal on initial load
@@ -20,7 +21,17 @@ function DateSelectionPage() {
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
       <h1>Select a Date and Preferences</h1>
-      {/* Render the User Preferences Modal */}
+      <div class="row">
+        <div class="day col-1"></div>
+        <div class="day col-1"></div>
+        <div class="day col-1"></div>
+        <div class="day col-1"></div>
+        <div class="day col-1"></div>
+        <div class="day col-1"></div>
+        <div class="day col-1"></div>
+
+
+      </div>
       <UserPreferencesModal
         show={showModal}
         handleClose={() => setShowModal(false)}
