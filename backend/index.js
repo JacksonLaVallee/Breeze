@@ -36,10 +36,10 @@ app.listen(port, hostname, () => {
 app.get("/", (req, res) => { return res.status(200).send("Hello, World!"); });
 // Get Description Endpoint
 app.get("/get-description", async (req, res) => {
-  console.log("debug point: ", req.query.address);
+  console.log(req.query.placeName);
   const initialPrompt = {
     role: "system",
-    content: `I want to go to this place. Give a 1 sentence description of: ${req.query.placeName} (this is located in ${req.query.address}).`,
+    content: `I want to go to this place. Give a 1 sentence description of: ${req.query.placeName}`,
   };
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
@@ -119,16 +119,20 @@ async function filterActivities(weather) {
         let filtered_messages = ACTIVITIES_LIST.map((activity) => ({ id: activity.id, name: activity.name }));
         const initialPrompt = {
           role: "system",
-          content: `You are to respond in JSON format. Give a list of at MOST FIVE (5) activities by ID that can be done in the weather conditions provided.
-                INCLUDE AT MOST 5 ACTIVITIES.
+          content: `You are to respond in JSON format. Give a list of at least THREE (3) activities by ID that should be prioritized in the weather conditions provided.
+                For example, if it is sunny, recommend going to the beach. If it is rainy, recommend going to a museum. 
+                Try to minimize the number of activities that are opposite in nature of the weather condition provided.
+                X is the actual amount of activities you suggest, try to include 10-15 activities if possible.
                 Return the response in the following parsable JSON format:
                 {
                 activities: [
                 "activityID1",
                 "activityID2",
                 "activityID3",
-                "activityID4",
-                "activityID5"
+                .
+                .
+                .
+                "activityIDX"
                 ]}
                 Your provided data is as follows: Activities ${JSON.stringify(
                   filtered_messages
@@ -177,7 +181,7 @@ async function grabActivities() {
 
     // Step 2: Use Google Places API to find activities within a radius
     const placesResponse = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=16093&type=tourist_attraction|park|gym|restaurant|museum|amusement_park|zoo|aquarium|library|shopping_mall&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=32000&type=tourist_attraction|park|gym|restaurant|museum|amusement_park|zoo|aquarium|library|shopping_mall&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
     );
     if (placesResponse.data.status !== "OK") throw new Error("Failed to get activities from Google Places API");
 
