@@ -22,7 +22,7 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(cors(
     {
-        origin: ["https://breeze-theta.vercel.app"],
+        origin: ["https://www.breeze-select.co", "https://breeze-theta.vercel.app"],
         methods: ["POST", "GET"],
         credentials: true
     }
