@@ -8,25 +8,20 @@ const { OpenAI } = require("openai");
 const app = express();
 app.use(express.json());
 const cors = require("cors");
+require('dotenv').config();
 
-// Configuration and API Keys
-const OPENAI_API_KEY = "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";
-const WEATHER_API_KEY = "19144fe0b9f5430387e232205242809";
-const GOOGLE_API_KEY = "AIzaSyCocc-1XF4aJSLYk3mMSyoQqhipLpf9NLo";
+app.use(compression());
+app.use(bodyParser.json());
+app.use(cors());
 
 // Initialize OpenAI Client
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.REACT_APP_OPENAI_API_KEY });
 
 // Global State Variables
 let weatherData = [];
 let zipCode = "60612";
 let ACTIVITIES_LIST = [];
 
-app.use(compression());
-app.use(bodyParser.json());
-app.use(cors());
-
-// Start Server
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
@@ -49,20 +44,22 @@ app.get("/find-weather", async (req, res) => {
     const initialPrompt = {
       role: "system",
       content: `You are to respond in JSON format. Give a one word description of the average weather for each of the next seven days. 
-                YOU MAY ONLY RESPOND WITH ONE OF FIVE WORDS, ALL LOWERCASE: sunny, cloudy, rainy, stormy, snowy.
-                Return the response in the following parsable JSON format:
-                {
-                weather: [
-                "weatherDay1ONEWORD",
-                "weatherDay2ONEWORD",
-                "weatherDay3ONEWORD",
-                "weatherDay4ONEWORD",
-                "weatherDay5ONEWORD",
-                "weatherDay6ONEWORD",
-                "weatherDay7ONEWORD"
-                ]
-            }
-            Your provided data is as follows: ${JSON.stringify(messages)}`,
+            YOU MAY ONLY RESPONSE WITH ONE OF FIVE WORDS, ALL LOWERCASE: sunny, cloudy, rainy, stormy, snowy
+            DO NOT RETURN ANY OTHER WORD. I REPEAT ONLY RETURN sunny, cloudy, rainy, stormy, snowy. NOTHING ELSE IS ALLOWED.
+            Return the response in the following parsable JSON format:
+            {
+            weather: [
+            "weatherDay1ONEWORD",
+            "weatherDay2ONEWORD",
+            "weatherDay3ONEWORD",
+            "weatherDay4ONEWORD",
+            "weatherDay5ONEWORD",
+            "weatherDay6ONEWORD",
+            "weatherDay7ONEWORD"
+            ]
+        }
+            
+        Your provided data is as follows: ${JSON.stringify(messages)}`,
     };
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -97,7 +94,7 @@ async function grabWeather() {
 
   try {
     const response = await axios.get(
-      `https://api.weatherapi.com/v1/forecast.json?q=${zipCode}&days=7&key=${WEATHER_API_KEY}`
+      `https://api.weatherapi.com/v1/forecast.json?q=${zipCode}&days=7&key=${process.env.REACT_APP_WEATHER_API_KEY}`
     );
     return response.data;
   } catch (error) {
