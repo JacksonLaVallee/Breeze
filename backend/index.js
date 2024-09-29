@@ -119,18 +119,16 @@ async function filterActivities(weather) {
         let filtered_messages = ACTIVITIES_LIST.map((activity) => ({ id: activity.id, name: activity.name }));
         const initialPrompt = {
           role: "system",
-          content: `You are to respond in JSON format. Give a list of at least THREE (3) activities by ID that can be done in the weather conditions provided.
-                X is the actual amount of activities you suggest, try to include 10-15 activities if possible.
+          content: `You are to respond in JSON format. Give a list of at MOST FIVE (5) activities by ID that can be done in the weather conditions provided.
+                INCLUDE AT MOST 5 ACTIVITIES.
                 Return the response in the following parsable JSON format:
                 {
                 activities: [
                 "activityID1",
                 "activityID2",
                 "activityID3",
-                .
-                .
-                .
-                "activityIDX"
+                "activityID4",
+                "activityID5"
                 ]}
                 Your provided data is as follows: Activities ${JSON.stringify(
                   filtered_messages
