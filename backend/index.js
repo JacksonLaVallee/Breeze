@@ -10,18 +10,29 @@ const { OpenAIStream } = require("ai");
 const { StreamingTextResponse } = require("ai");
 const app=express(); 
 app.use(express.json()); 
+const cors = require('cors');
 
 const OPENAI_API_KEY = "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";
 
 app.use(compression());
 app.use(bodyParser.json());
+app.use(cors());
 
 const WEATHER_API_KEY = "19144fe0b9f5430387e232205242809";
 
 let weatherData = [];
-
+let zipCode = "";
 const openai = new OpenAI({
     apiKey: OPENAI_API_KEY,
+})
+
+app.post("/set-zip", (req, res) => {
+    console.log(req.query.zipCode);
+    zipCode = req.query.zipCode;
+    return res.status(200).json({
+        success: true,
+        data: zipCode
+    });
 })
 
 app.post("/find-weather", async (req, res) => {
@@ -33,8 +44,7 @@ app.post("/find-weather", async (req, res) => {
         const initialPrompt = {
             role: "system",
             content: `You are to respond in JSON format. Give a one word description of the average weather for each of the next seven days. 
-            Each of the single words should start with a capital letter. If you ever need to use "Partly" before a word. You may response with two words, ex:
-            Partly Cloudy. In this case, ensure both words start with a capital letter. Another case would be "Light/Moderate/Heavy" before a word like rain.
+            YOU MAY ONLY RESPONSE WITH ONE OF FIVE WORDS, ALL LOWERCASE: sunny, cloudy, rainy, stormy, snowy
             Return the response in the following parsable JSON format:
             {
             weather: [

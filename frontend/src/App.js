@@ -5,16 +5,16 @@ import HomePage from './components/HomePage/HomePage'; // Import your new compon
 import DateSelectionPage from './components/DateSelectionPage/DateSelectionPage';
 import MapPage from './components/MapPage/MapPage';
 import './App.css'; // Optional: Include global CSS styles
+import axios from 'axios';
 
 function App() {
 
   // State to store the user's zip code
-  const [userZipCode, setUserZipCode] = useState('');
 
   // Handler function that gets called when the zip code is submitted
   const handleZipCodeSubmit = (zipCode) => {
     console.log('Zip code submitted:', zipCode);
-    setUserZipCode(zipCode); // Save the zip code to state
+    axios.post(`http://localhost:8080/set-zip?zipCode=${zipCode}`); // Save the zip code to state
     // You might also navigate to another route or perform an API call here
   };
 
