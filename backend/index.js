@@ -24,21 +24,44 @@ const openai = new OpenAI({
     apiKey: OPENAI_API_KEY,
 })
 
-app.post("/find-complexity", async (req, res) => {
+app.post("/find-weather", async (req, res) => {
+    if (weatherData.length != 0) return res.status(200).send(weatherData);
     try {
+        const messages = await grabWeather("60612");
+        console.log(messages);
+        console.log(JSON.stringify(messages));
         const initialPrompt = {
             role: "system",
-            content: "You are to respond in JSON format. List 10 activities in chicago",
+            content: `You are to respond in JSON format. Give a one word description of the average weather for each of the next seven days. 
+            Each of the single words should start with a capital letter. If you ever need to use "Partly" before a word. You may response with two words, ex:
+            Partly Cloudy. In this case, ensure both words start with a capital letter. Another case would be "Light/Moderate/Heavy" before a word like rain.
+            Return the response in the following parsable JSON format:
+            {
+            weather: [
+            "weatherDay1ONEWORD",
+            "weatherDay2ONEWORD",
+            "weatherDay3ONEWORD",
+            "weatherDay4ONEWORD",
+            "weatherDay5ONEWORD",
+            "weatherDay6ONEWORD",
+            "weatherDay7ONEWORD"
+            ]
+        }
+            
+        Your provided data is as follows: ${JSON.stringify(messages)}`,
         };
         console.log("HI");
         const response = await openai.chat.completions.create({
             model: "gpt-4o-mini",
-            // response_format: {"type": "json_object"},
+            response_format: {"type": "json_object"},
             messages: [initialPrompt],
             stream: false,
         });
         
-        console.log("RESPONSE:" + response);
+        const parsableResponse = response.choices[0].message.content;
+        console.log(parsableResponse);
+        weatherData = JSON.parse(parsableResponse).weather;
+        console.log(weatherData);
         return res.status(200).json({
             success: true,
             data: response
@@ -66,7 +89,7 @@ async function grabWeather(zipCode) {
     }
 
     try {
-        const reponse = await axios.get(`https://api.weatherapi.com/v1/forecast.json?q=${zipCode}&days=7&key=${WEATHER_API_KEY}`);
+        const response = await axios.get(`https://api.weatherapi.com/v1/forecast.json?q=${zipCode}&days=7&key=${WEATHER_API_KEY}`);
         return response.data;
     } catch (error) {
         return {error: error};
@@ -74,24 +97,7 @@ async function grabWeather(zipCode) {
 
 }
 
-function setWeatherData() {
-    grabWeather("60612").then((data) => {
-        const initialPrompt = {
-            role: "system",
-            content: "You are to respond in JSON format. List 10 activities in chicago",
-        }
-        const response = openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            response_format: {"type": "json_object"},
-            messages: [initialPrompt],
-            stream: true,
-        });
-        
-        console.log(response);
-    })
-}
-
-setWeatherData();
+// setWeatherData();
 
 // export async function POST(req) {
 //     const { messages } = await req.json();
