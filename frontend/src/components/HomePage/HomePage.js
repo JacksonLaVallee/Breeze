@@ -39,20 +39,22 @@ function HomePage({ onSubmitZipCode }) {
         <div className="content">
           <h1 className="title">Welcome to Breeze</h1>
           <p className="subtitle">Discover things to do, no matter the weather.</p>
-          <form className="zip-code-form" onSubmit={handleZipCodeSubmit}>
-            <input
-              type="text"
-              value={zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
-              placeholder="Enter your zip code"
-              pattern="\d{5}(-\d{4})?"
-              required
-            />
-            <button type="submit" className="zip-code-submit">Submit</button>
-          </form>
-          <button className="get-started-button" onClick={handleGetStarted}>
-            Get Started
-          </button>
+          <div className="zip-code-form-container">
+            <form onSubmit={handleZipCodeSubmit} className="zip-code-form">
+              <input
+                type="text"
+                className="zip-code-input"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
+                placeholder="Enter your zip code"
+                pattern="\d{5}(-\d{4})?"
+                required
+              />
+              <button type="submit" className="zip-code-submit-button">
+                →
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

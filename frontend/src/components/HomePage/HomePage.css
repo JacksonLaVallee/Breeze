@@ -47,25 +47,39 @@
   max-width: 600px;
 }
 
-/* Button styling */
-.get-started-button {
-  background: #00c6ff; /* Gradient background */
-  background: -webkit-linear-gradient(to right, #0072ff, #00c6ff);
-  background: linear-gradient(to right, #0072ff, #00c6ff);
-  border: none;
-  color: white;
-  padding: 15px 30px;
-  font-size: 18px;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: transform 0.3s, background 0.3s;
+/* Zip Code Form Styles */
+.zip-code-form-container {
+  margin-top: 20px;
+  text-align: center;
 }
 
-/* Hover effect for the button */
-.get-started-button:hover {
-  transform: scale(1.05); /* Slight zoom */
-  background: -webkit-linear-gradient(to right, #0052cc, #00a6cc);
-  background: linear-gradient(to right, #0052cc, #00a6cc);
+.zip-code-form {
+  display: inline-flex; /* Use flexbox for alignment */
+  border-radius: 30px; /* Rounded corners for the form */
+  overflow: hidden; /* Ensure inner elements do not overflow rounded corners */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional: Add shadow for depth */
+}
+
+.zip-code-input {
+  width: 240px; /* Set a longer width */
+  padding: 16px 20px; /* Larger padding */
+  border: none; /* Remove border */
+  font-size: 18px; /* Larger font size */
+  border-radius: 30px 0 0 30px; /* Rounded corners on input side */
+}
+
+.zip-code-submit-button {
+  padding: 0 20px; /* Custom padding */
+  background: #444; /* Background color for button */
+  color: #fff; /* Text color for the icon */
+  font-size: 24px; /* Larger icon */
+  border: none; /* Remove border */
+  cursor: pointer; /* Hand cursor on hover */
+  border-radius: 0 30px 30px 0; /* Rounded corners on button side */
+}
+
+.zip-code-submit-button:hover, .zip-code-submit-button:focus {
+  background: #333; /* Darker background on hover/focus */
 }
 
 /* Animation for fading in */
