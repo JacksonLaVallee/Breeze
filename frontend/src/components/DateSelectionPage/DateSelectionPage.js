@@ -1,16 +1,26 @@
+<<<<<<< Updated upstream
 // src/components/DateSelectionPage.js
 import 'bootstrap/dist/css/bootstrap.css';
+=======
+// src/components/DateSelectionPage/DateSelectionPage.js
+>>>>>>> Stashed changes
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DateSelectionPage.css'; // Import CSS for styling
 import axios from 'axios';
+<<<<<<< Updated upstream
 import Spinner from 'react-bootstrap/Spinner';
 
 function DateSelectionPage() {
   const [availableDays, setAvailableDays] = useState([]); // Array to hold the next 7 days
   const [loading, setLoading] = useState(true);
+=======
+
+function DateSelectionPage() {
+  const [availableDays, setAvailableDays] = useState([]); // Array to hold the next 7 days
   const [initialActivityPlaceIds, setInitialActivityPlaceIds] = useState([]); // Store initial place IDs
   const [zipCode, setZipCode] = useState('60612'); // Default zip code or user input
+>>>>>>> Stashed changes
   const navigate = useNavigate();
 
   // Get weather icons (replace these URLs with your own images)
@@ -37,6 +47,7 @@ function DateSelectionPage() {
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
   };
+<<<<<<< Updated upstream
   
   useEffect(() => {
     const fetchWeatherData = async () => {
@@ -57,6 +68,9 @@ function DateSelectionPage() {
     fetchWeatherData();
   }, []);
   
+=======
+
+>>>>>>> Stashed changes
   // Function to generate the next 7 days starting from today
   const generateNext7Days = async () => {
     try {
@@ -111,19 +125,55 @@ function DateSelectionPage() {
     fetchInitialActivities(); // Fetch initial activities on component mount
   }, [zipCode]); // Re-fetch activities when the zip code changes
 
-  // Handle day click event
+  // Handle day click event and post data to the backend for filtering
   const handleDayClick = async (selectedDay) => {
-    await axios.post(`http://localhost:8080/set-selected-day?day=${selectedDay.weather}`);
-    console.log(`Selected Day: ${selectedDay.date}`);
-    // Navigate to the map page and pass the selected day as state
-    navigate('/map', { state: { selectedDay } });
+    try {
+      // Send selected date, weather, and initial activity place IDs to the backend for filtering
+      const response = await axios.post('http://localhost:8080/filter-activities', {
+        selectedDate: selectedDay.date,
+        weather: selectedDay.weather,
+        placeIds: initialActivityPlaceIds,
+      });
+
+      // Get the filtered place IDs from the backend and navigate to the MapPage with those IDs
+      const filteredPlaceIds = response.data;
+      console.log('Filtered Place IDs:', filteredPlaceIds);
+
+      navigate('/map', { state: { placeIds: filteredPlaceIds } });
+    } catch (error) {
+      console.error('Error filtering activities:', error);
+    }
   };
 
   return (
     <div className="date-selection-page" style={pageStyle}>
+<<<<<<< Updated upstream
       {loading ? (
         <div className="spinner-container">
       <Spinner animation="border" variant="light" />
+=======
+      <h1>Select a Date</h1>
+      <div className="calendar">
+        {/* Render only the next 7 days */}
+        {availableDays.map((day, index) => (
+          <div
+            key={index}
+            className={`day ${day.weather}`}
+            style={{
+              backgroundImage: `url(${weatherBackgrounds[day.weather]})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+            onClick={() => handleDayClick(day)} // Pass the day object to the click handler
+          >
+            <div className="day-of-week">{day.dayOfWeek}</div>
+            <div className="day-number">
+              {day.monthName} {day.dayOfMonth}
+            </div>
+            <img src={weatherIcons[day.weather]} alt={day.weather} className="weather-icon" />
+          </div>
+        ))}
+>>>>>>> Stashed changes
       </div>
       ) : (
         <>
