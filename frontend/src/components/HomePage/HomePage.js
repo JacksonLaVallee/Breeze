@@ -14,10 +14,10 @@ function HomePage({ onSubmitZipCode }) {
   };
 
   // Handle the zip code submission
-  const handleZipCodeSubmit = (event) => {
+  const handleZipCodeSubmit = async (event) => {
     event.preventDefault();
     if (zipCode.match(/^\d{5}(-\d{4})?$/)) {
-      onSubmitZipCode(zipCode);
+      await onSubmitZipCode(zipCode);
       navigate('/date-selection'); // Optionally navigate after successful submission
     } else {
       alert("Please enter a valid zip code.");
