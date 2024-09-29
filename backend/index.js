@@ -36,10 +36,10 @@ app.listen(port, hostname, () => {
 app.get("/", (req, res) => { return res.status(200).send("Hello, World!"); });
 // Get Description Endpoint
 app.get("/get-description", async (req, res) => {
-  console.log(req.query.placeName);
+  console.log("debug point: ", req.query.address);
   const initialPrompt = {
     role: "system",
-    content: `I want to go to this place. Give a 1 sentence description of: ${req.query.placeName}`,
+    content: `I want to go to this place. Give a 1 sentence description of: ${req.query.placeName} (this is located in ${req.query.address}).`,
   };
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",

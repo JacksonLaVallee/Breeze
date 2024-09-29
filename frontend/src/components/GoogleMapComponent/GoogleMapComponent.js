@@ -77,12 +77,8 @@ function GoogleMapComponent({ places = [] }) {
         // Create a standard marker
         const marker = new window.google.maps.Marker({
           position: { lat: place.location.lat, lng: place.location.lng },
-          optimized: false,
-          zIndex:10,
           map: mapInstanceRef.current,
           title: place.name,
-          // Addition: Set marker's initial visibility
-          visible: true
         });
 
         // Create a custom image overlay
@@ -90,7 +86,7 @@ function GoogleMapComponent({ places = [] }) {
         overlayDiv.className = 'place-image-container';
         overlayDiv.innerHTML = `<img src="${place.photoUrl}" alt="${place.name}" class="place-image" />`;
         overlayDiv.style.display = 'none'; // Initially hide all overlays
-        overlayDiv.style.zIndex = 100; // Ensure overlays appear above the map
+        overlayDiv.style.zIndex = '1000'; // Ensure overlays appear above the map
 
         // Create an overlay on the map using the `OverlayView` method
         const overlay = new window.google.maps.OverlayView();
@@ -121,28 +117,20 @@ function GoogleMapComponent({ places = [] }) {
     }
   }, [places]); // Re-run this effect whenever the `places` data changes
 
+  // Handle overlay visibility when selectedPlace changes
   useEffect(() => {
     Object.keys(overlaysRef.current).forEach((key) => {
-      const { overlayDiv, marker, overlay } = overlaysRef.current[key];
+      const { overlayDiv, overlay } = overlaysRef.current[key];
       if (overlayDiv) {
-        if (selectedPlace === key) {
-          // If selected place matches the key, display the overlay and ensure the marker is visible
-          overlayDiv.style.display = 'block';
-          marker.setVisible(true);
-        } else {
-          // For all non-selected places, hide the overlay and marker
-          overlayDiv.style.display = 'none';
-          marker.setVisible(false);
-        }
+        overlayDiv.style.display = key === selectedPlace ? 'block' : 'none';
 
-        // Redraw overlay
-        if (overlay && selectedPlace === key) {
+        // If the overlay for the selected place is being shown, trigger a redraw
+        if (key === selectedPlace && overlay) {
           overlay.draw();
         }
       }
     });
-  }, [selectedPlace]);
-  
+  }, [selectedPlace]); // Re-run this effect only when selectedPlace changes
 
   // Handle clicking on a place in the list
   const handlePlaceClick = (placeId) => {

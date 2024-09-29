@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './FloatingList.css';
+import axios from 'axios';
 import PlaceDescription from '../PlaceDescription/PlaceDescription';
 
 function FloatingList({ places, selectedPlace, onSelectPlace }) {
@@ -7,12 +8,15 @@ function FloatingList({ places, selectedPlace, onSelectPlace }) {
   const [descriptions, setDescriptions] = useState({});
 
   // Fetch the description for a place asynchronously
-  const fetchDescription = async (placeName) => {
+  const fetchDescription = async (place) => {
     try {
-      const description = await PlaceDescription(placeName);
+      //get zip code of current place
+      const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${place.location.lat},${place.location.lng}&key=AIzaSyCocc-1XF4aJSLYk3mMSyoQqhipLpf9NLo`);
+      const address = response.data.results[0].formatted_address;
+      const description = await PlaceDescription(place.name, address);
       setDescriptions((prevDescriptions) => ({
         ...prevDescriptions,
-        [placeName]: description,
+        [place.name]: description,
       }));
     } catch (error) {
       console.error("Error fetching description:", error);
@@ -23,7 +27,7 @@ function FloatingList({ places, selectedPlace, onSelectPlace }) {
     // Fetch descriptions for all places when component mounts
     places.forEach((place) => {
       if (!descriptions[place.name]) {
-        fetchDescription(place.name);
+        fetchDescription(place);
       }
     });
   }, [places]);
