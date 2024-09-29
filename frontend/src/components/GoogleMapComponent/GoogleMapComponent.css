@@ -19,7 +19,7 @@
     background: rgba(255, 255, 255, 0.9);
     border-radius: 15px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Ensure it is above the map */
+    z-index: 100; /* Ensure it is above the map */
   }
   
   /* Individual place item styling */
@@ -80,6 +80,8 @@
   
   /* Style for the custom HTML image container */
   .place-image-container {
+    margin-top: -50px;
+    z-index: 1000;
     width: 200px;
     height: 150px;
     background: white;
@@ -94,6 +96,7 @@
   }
   
   .place-image {
+    z-index: 2000;
     width: 100%; /* Make the image take up the full width of the container */
     height: auto; /* Maintain aspect ratio */
     display: block; /* Ensure no extra space is around the image */
