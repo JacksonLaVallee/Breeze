@@ -42,6 +42,7 @@ app.get("/find-weather", async (req, res) => {
   if (weatherData.length !== 0) return res.status(200).send(weatherData);
   try {
     const messages = await grabWeather();
+    ACTIVITIES_LIST = await grabActivities();
     const initialPrompt = {
       role: "system",
       content: `You are to respond in JSON format. Give a one word description of the average weather for each of the next seven days. 
@@ -78,10 +79,18 @@ app.get("/find-weather", async (req, res) => {
   }
 });
 
-// Fetch Initial Activities Based on Zip Code and Radius
-app.get("/find-activities", async (req, res) => {
+app.post("/set-weather", async (req, res) => {
+  console.log("TEST");
+  const weather = req.query.weather;
+  const IDs = await filterActivities(weather);
+  const activities = ACTIVITIES_LIST.filter((activity) => IDs.includes(activity.id));
+
+  res.status(200).send(activities);
+});
+
+async function filterActivities(weather) {
     try {
-        const messages = await grabTempActivities();
+        let filtered_messages = ACTIVITIES_LIST.map((activity) => ({ id: activity.id, name: activity.name }));
         const initialPrompt = {
           role: "system",
           content: `You are to respond in JSON format. Give a list of FIVE (5) activities by ID that can be done in the weather conditions provided.
@@ -96,9 +105,9 @@ app.get("/find-activities", async (req, res) => {
                 ]}
                 
                 Your provided data is as follows: Activities ${JSON.stringify(
-                  messages
+                  filtered_messages
                 )}
-                Weather = Very sunny and amazing out`,
+                Weather = ${weather}`,
         };
         const response = await openai.chat.completions.create({
           model: "gpt-4o-mini",
@@ -107,12 +116,12 @@ app.get("/find-activities", async (req, res) => {
           stream: false,
         });
         const parsableResponse = response.choices[0].message.content;
-        return res.status(200).send(JSON.parse(parsableResponse).activities);
+        return JSON.parse(parsableResponse).activities;
       } catch (error) {
         console.log(error);
-        res.status(400).json({});
+        return { error };
       }
-});
+};
 
 // Helper Function: Fetch Weather Data
 async function grabWeather() {
@@ -120,7 +129,7 @@ async function grabWeather() {
 
   try {
     const response = await axios.get(
-      `https://api.weatherapi.com/v1/forecast.json?q=${zipCode}&days=7&key=${REACT_APP_WEATHER_API_KEY}`
+      `https://api.weatherapi.com/v1/forecast.json?q=${zipCode}&days=7&key=${process.env.REACT_APP_WEATHER_API_KEY}`
     );
     return response.data;
   } catch (error) {
@@ -133,7 +142,7 @@ async function grabActivities() {
   try {
     // Step 1: Convert the zip code to coordinates using Google Geocoding API
     const geoResponse = await axios.get(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${zipCode}&key=${REACT_APP_GOOGLE_API_KEY}`
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${zipCode}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
     );
     if (geoResponse.data.status !== "OK") throw new Error("Failed to get coordinates from zip code");
 
@@ -142,7 +151,7 @@ async function grabActivities() {
 
     // Step 2: Use Google Places API to find activities within a radius
     const placesResponse = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=16093&type=tourist_attraction|park|gym|restaurant|museum|amusement_park|zoo|aquarium|library|shopping_mall&key=${GOOGLE_API_KEY}`
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=16093&type=tourist_attraction|park|gym|restaurant|museum|amusement_park|zoo|aquarium|library|shopping_mall&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
     );
     if (placesResponse.data.status !== "OK") throw new Error("Failed to get activities from Google Places API");
 
@@ -154,32 +163,13 @@ async function grabActivities() {
       types: place.types,
       rating: place.rating || 'N/A',
       price_level: place.price_level || 'N/A',
-      photoUrl: place.photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${place.photos[0].photo_reference}&key=${REACT_APP_GOOGLE_API_KEY}` : '',
+      photoUrl: place.photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${place.photos[0].photo_reference}&key=${process.env.REACT_APP_GOOGLE_API_KEY}` : '',
     }));
-
-    ACTIVITIES_LIST = activities; // Store activities globally if needed
-
-    // Return only necessary data for frontend
-    return activities.map((activity) => ({ id: activity.id, name: activity.name }));
+    console.log("activities: ", activities);
+    return activities;
   } catch (error) {
     console.error("Error fetching activities from Google Places API:", error);
     return { error: "Failed to fetch activities" };
   }
-}
-
-async function grabTempActivities() {
-    return {
-        activites: [
-        { id: "1", name: "Board Games" },
-        { id: "2", name: "Indoor Sports" },
-        { id: "3", name: "Bowling" },
-        { id: "4", name: "Movie" },
-        { id: "5", name: "Gym" },
-        { id: "6", name: "Hike" },
-        { id: "7", name: "Swim" },
-        { id: "8", name: "Beach" },
-        { id: "9", name: "Run" },
-        { id: "10", name: "Picnic" },
-      ]};
 }
 
