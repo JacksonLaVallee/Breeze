@@ -2,42 +2,6 @@
 
 /* Base styles for the home page */
 .home-page {
-<<<<<<< HEAD
-  background-color: linear-gradient(454deg, #ffc177, #000);
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
-  
-  .home-page .slides {
-    background-color: linear-gradient(454deg, #ffc177, #000);
-    margin: 20px auto;
-    max-width: 800px;
-  }
-  
-  .home-page .slide {
-    background-color: linear-gradient(454deg, #ffc177, #000);
-    padding: 20px;
-    border: 1px solid #000000;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .get-started-button {
-    background-color: #46ba42;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .get-started-button:hover {
-    background-color: #0056b3;
-  }
-  
-=======
   position: relative;
   height: 100vh;
   width: 100%;
@@ -46,6 +10,7 @@
   align-items: center;
   background-size: cover;
   background-position: center;
+  transition: background-image 1s ease-in-out; /* Smooth transition for background change */
 }
 
 /* Semi-transparent overlay for better text visibility */
@@ -93,7 +58,7 @@
   font-size: 18px;
   border-radius: 30px;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s, background 0.3s;
 }
 
 /* Hover effect for the button */
@@ -114,4 +79,3 @@
     transform: translateY(0);
   }
 }
->>>>>>> 2b407ef (updated homepage design)
