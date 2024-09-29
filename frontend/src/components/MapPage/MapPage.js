@@ -1,7 +1,7 @@
-// src/components/MapPage.js
+// src/components/MapPage/MapPage.js
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import VisGoogleMapComponent from './VisGoogleMapComponent'; // Import your map component
+import VisGoogleMapComponent from '../GoogleMapComponent/GoogleMapComponent'
 
 function MapPage() {
   const location = useLocation();
@@ -17,6 +17,9 @@ function MapPage() {
       latitude: 36.165,
       longitude: -86.784,
       imageUrl: 'https://via.placeholder.com/150',
+      rating: 4.5,
+      price: '$$$',
+      description: 'A nice place to visit.',
     },
     {
       id: 2,
@@ -24,12 +27,14 @@ function MapPage() {
       latitude: 36.167,
       longitude: -86.781,
       imageUrl: 'https://via.placeholder.com/150',
+      rating: 4.0,
+      price: '$$',
+      description: 'Another great spot.',
     },
   ];
 
   return (
     <div>
-      <h1 style={{ textAlign: 'center' }}>Map Page</h1>
       {/* Display selected date information if available */}
       {selectedDay ? (
         <p style={{ textAlign: 'center' }}>

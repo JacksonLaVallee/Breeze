@@ -1,9 +1,9 @@
 // src/App.js
 import React, { useState } from 'react'; // Add useState here
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './components/HomePage'; // Import your new components
-import DateSelectionPage from './components/DateSelectionPage';
-import MapPage from './components/MapPage';
+import HomePage from './components/HomePage/HomePage'; // Import your new components
+import DateSelectionPage from './components/DateSelectionPage/DateSelectionPage';
+import MapPage from './components/MapPage/MapPage';
 import './App.css'; // Optional: Include global CSS styles
 
 function App() {
